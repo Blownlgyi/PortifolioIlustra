@@ -427,7 +427,7 @@ h1{
   overflow: hidden;
 }
 .cardProject:hover{
-    transform: scale(1.2) scaleY(1.2);
+    transform: scale(1.1) scaleY(1.1);
 }
 .cardsprojects{
   display: flex;
