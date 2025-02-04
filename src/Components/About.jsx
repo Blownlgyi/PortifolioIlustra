@@ -44,7 +44,8 @@ const About = (props)=>{
         <section ref={props.refs} className='about'>
             <div id="section1" >
                 <h1 className='s-title' >Sobre mim</h1>
-                <p>Conheça um pouco sobre mim e minhas experiências clique em uma carta </p>
+                <p>Conheça um pouco sobre mim e minhas experiências <strong>
+                clique em uma carta  </strong>  </p>
 
             {/* <button className='btn' >Sobre mim</button> */}
             </div>

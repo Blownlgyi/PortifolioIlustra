@@ -15,7 +15,7 @@ const Home = () => {
         };
     return (
         <>
-            <AnimationIntro/>
+        
              <div>
                 <button className="btn-drawing" onClick={toggleDrawing}>
                     <img src={img} alt="" />
