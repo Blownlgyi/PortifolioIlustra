@@ -8,11 +8,26 @@ import { AnimationIntro } from "./AnimationIntro";
 
 const Home = () => {
   
-        const [isDrawingEnabled, setIsDrawingEnabled] = useState(false);
-
-        const toggleDrawing = () => {
-          setIsDrawingEnabled((prev) => !prev); // Alterna o estado de desenho
-        };
+    const [isDrawingEnabled, setIsDrawingEnabled] = useState(false);
+  
+    const toggleDrawing = () => {
+      setIsDrawingEnabled((prev) => !prev); // Toggle the drawing state
+    };
+  
+    useEffect(() => {
+      // Function to disable drawing when user scrolls
+      const handleScroll = () => {
+        setIsDrawingEnabled(false); // Disable drawing when user scrolls
+      };
+  
+      // Add scroll event listener
+      window.addEventListener('scroll', handleScroll);
+  
+      // Cleanup event listener on unmount
+      return () => {
+        window.removeEventListener('scroll', handleScroll);
+      };
+    }, []);
     return (
         <>
         
