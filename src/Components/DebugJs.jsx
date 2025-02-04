@@ -1,26 +1,24 @@
 import React, { useState, useRef, useEffect } from "react";
 
 const Debugjs = ({ toggleDrawing }) => {
-  // Referência para o canvas e o contexto de desenho
   const canvasRef = useRef(null);
   const [drawing, setDrawing] = useState(false);
   const [lastPosition, setLastPosition] = useState({ x: 0, y: 0 });
-  const [brushColor, setBrushColor] = useState("black"); // Cor do pincel
-  const [brushSize, setBrushSize] = useState(5); // Tamanho do pincel
-  const [drawingEnabled, setDrawingEnabled] = useState(true); // Controle de habilitação do desenho
-  const [zIndexS, setzIndexS]=useState("-8")
-  // Função para iniciar o desenho
+  const [brushColor, setBrushColor] = useState("black");
+  const [brushSize, setBrushSize] = useState(5);
+  const [drawingEnabled, setDrawingEnabled] = useState(true);
+  const [zIndexS, setzIndexS] = useState("-8");
+
   const startDrawing = (e) => {
-    if (!drawingEnabled) return; // Não começa a desenhar se o desenho estiver desabilitado
+    if (!drawingEnabled) return;
     setDrawing(true);
     const { clientX, clientY } = e.touches ? e.touches[0] : e;
     setLastPosition(getCanvasCoordinates(clientX, clientY));
   };
 
-  // Função para continuar desenhando
   const draw = (e) => {
-    if (!drawing || !drawingEnabled) return; // Não desenha se o modo de desenho estiver desabilitado
-    
+    if (!drawing || !drawingEnabled) return;
+
     const { clientX, clientY } = e.touches ? e.touches[0] : e;
     const currentPosition = getCanvasCoordinates(clientX, clientY);
 
@@ -29,19 +27,17 @@ const Debugjs = ({ toggleDrawing }) => {
     context.moveTo(lastPosition.x, lastPosition.y);
     context.lineTo(currentPosition.x, currentPosition.y);
     context.lineWidth = brushSize;
-    context.strokeStyle = brushColor; // Usando a cor do pincel selecionada
+    context.strokeStyle = brushColor;
     context.lineCap = "round";
     context.stroke();
 
-    setLastPosition(currentPosition); // Atualiza a última posição
+    setLastPosition(currentPosition);
   };
 
-  // Função para parar o desenho
   const stopDrawing = () => {
     setDrawing(false);
   };
 
-  // Função para obter as coordenadas do mouse/touch relativas ao canvas
   const getCanvasCoordinates = (clientX, clientY) => {
     const canvas = canvasRef.current;
     const rect = canvas.getBoundingClientRect();
@@ -51,13 +47,11 @@ const Debugjs = ({ toggleDrawing }) => {
     };
   };
 
-  // Redefinir o canvas
   const clearCanvas = () => {
     const context = canvasRef.current.getContext("2d");
     context.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
   };
 
-  // Desenhando no canvas
   useEffect(() => {
     if (drawingEnabled) {
       const canvas = canvasRef.current;
@@ -67,18 +61,20 @@ const Debugjs = ({ toggleDrawing }) => {
       const handleMouseUp = () => stopDrawing();
       
       const handleTouchStart = (e) => startDrawing(e);
-      const handleTouchMove = (e) => draw(e);
+      const handleTouchMove = (e) => {
+        e.preventDefault(); // Previne o comportamento de scroll no toque
+        draw(e);
+      };
       const handleTouchEnd = () => stopDrawing();
 
       canvas.addEventListener("mousedown", handleMouseDown);
       canvas.addEventListener("mousemove", handleMouseMove);
       canvas.addEventListener("mouseup", handleMouseUp);
 
-      canvas.addEventListener("touchstart", handleTouchStart);
-      canvas.addEventListener("touchmove", handleTouchMove);
+      canvas.addEventListener("touchstart", handleTouchStart, { passive: false });
+      canvas.addEventListener("touchmove", handleTouchMove, { passive: false });
       canvas.addEventListener("touchend", handleTouchEnd);
 
-      // Limpeza dos eventos quando o componente for desmontado
       return () => {
         canvas.removeEventListener("mousedown", handleMouseDown);
         canvas.removeEventListener("mousemove", handleMouseMove);
@@ -91,19 +87,17 @@ const Debugjs = ({ toggleDrawing }) => {
     }
   }, [drawing, lastPosition, drawingEnabled]);
 
-  // Alterar o estado de drawingEnabled com base no toggleDrawing
   useEffect(() => {
-    setDrawingEnabled(toggleDrawing); 
-    if(drawingEnabled == true){
-      setzIndexS("-8")
-    } else if(drawingEnabled == false){
-      setzIndexS("1")
+    setDrawingEnabled(toggleDrawing);
+    if (drawingEnabled === true) {
+      setzIndexS("-8");
+    } else if (drawingEnabled === false) {
+      setzIndexS("1");
     }
   }, [toggleDrawing]);
 
   return (
-    <div style={{ position: "absolute", width: "100vw", height: "220vh", zIndex:`${zIndexS}` }}>
-      {/* Controles - Só aparecem se drawingEnabled for true */}
+    <div style={{ position: "absolute", width: "100vw", height: "220vh", zIndex: `${zIndexS}` }}>
       {drawingEnabled && (
         <div
           className="controls"
@@ -111,7 +105,6 @@ const Debugjs = ({ toggleDrawing }) => {
             zIndex: 10,
             padding: "10px",
             borderRadius: "8px",
-        
           }}
         >
           <div>
@@ -119,7 +112,7 @@ const Debugjs = ({ toggleDrawing }) => {
             <input
               type="color"
               value={brushColor}
-              onChange={(e) => setBrushColor(e.target.value)} // Atualiza a cor do pincel
+              onChange={(e) => setBrushColor(e.target.value)}
             />
           </div>
 
@@ -130,9 +123,9 @@ const Debugjs = ({ toggleDrawing }) => {
               min="1"
               max="20"
               value={brushSize}
-              onChange={(e) => setBrushSize(e.target.value)} // Atualiza o tamanho do pincel
+              onChange={(e) => setBrushSize(e.target.value)}
             />
-            <span>{brushSize}</span> {/* Exibe o tamanho do pincel */}
+            <span>{brushSize}</span>
           </div>
 
           <div>
@@ -141,11 +134,10 @@ const Debugjs = ({ toggleDrawing }) => {
         </div>
       )}
 
-      {/* Canvas */}
       <canvas
         ref={canvasRef}
-        width={window.innerWidth} // Largura 100% da tela
-        height={window.innerHeight *2.2} // Altura 100% da tela
+        width={window.innerWidth}
+        height={window.innerHeight * 2.2}
         style={{
           position: "absolute",
           top: 0,
