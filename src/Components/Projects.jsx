@@ -11,7 +11,7 @@ const Projects = ()=>{
         <section className='project'>
             <div  >
                 <h1 className='s-title' >Projetos</h1>
-                <p>Apaixonado por desenho e tecnologia sempre buscando novas experiências e projetos.</p>
+                <p>Apaixonado por desenho e tecnologia, desenvolvo propostas integrativas para trazer experiências novas dentro dos projetos.</p>
                 
             </div>
         

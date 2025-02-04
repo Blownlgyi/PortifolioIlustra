@@ -59,7 +59,7 @@ const About = (props)=>{
                     </div>
                     <div className='back'>
                         <h1>Perfil</h1>
-                        <p>Tenho 23 anos, e trabalho com Web Designer a 3 anos sempre buscando formas de interações e abordagens diferentes para o produto. sempre em busca de desafios e sempre buscando o alinhamento com o cliente</p>
+                        <p>Tenho 23 anos, e trabalho com Web Design 3 anos.Sempre buscando formas de interações e abordagens diferentes para o produto. sempre em busca de desafios e sempre buscando o alinhamento com o cliente</p>
                         <img className='about-img' src={img2} alt="" />
 
                     </div>
