@@ -145,7 +145,7 @@ const Debugjs = ({ toggleDrawing }) => {
       <canvas
         ref={canvasRef}
         width={window.innerWidth} // Largura 100% da tela
-        height={window.innerHeight *2.1} // Altura 100% da tela
+        height={window.innerHeight *2.2} // Altura 100% da tela
         style={{
           position: "absolute",
           top: 0,

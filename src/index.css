@@ -6,6 +6,7 @@
   box-sizing: border-box;
   font-family:  "Lato", serif;
   color: #131313;
+  user-select: none;
 
 }*::-webkit-scrollbar {
   height: 5px;
