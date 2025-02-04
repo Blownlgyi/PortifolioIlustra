@@ -32,7 +32,7 @@ const Home = () => {
         <>
         
              <div>
-                <button className="btn-drawing" onClick={toggleDrawing}>
+                <button className="btn-drawing" onClick={toggleDrawing} onTouchStart={toggleDrawing} >
                     <img src={img} alt="" />
                     {isDrawingEnabled ? "Desabilitar Desenho" : "Habilitar Desenho"}
                 </button>
